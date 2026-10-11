@@ -1,0 +1,19 @@
+{
+  "name": "mandagram.app",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Официальный сайт MandaGram — нативный Telegram клиент на ПК с поддержкой C ABI плагинов и Material 3 Expressive (Astro)",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "astro": "^4.16.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "typescript": "^5.6.3"
+  }
+}

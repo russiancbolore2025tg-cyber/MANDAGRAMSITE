@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /kb/search.json
+
+Sitemap: https://mandagram.app/sitemap.xml

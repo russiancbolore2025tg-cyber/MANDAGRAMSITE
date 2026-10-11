@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://mandagram.app/</loc><lastmod>2026-10-11</lastmod><priority>1.0</priority></url>
+  <url><loc>https://mandagram.app/en/</loc><lastmod>2026-10-11</lastmod><priority>0.9</priority></url>
+  <url><loc>https://mandagram.app/kb/</loc><lastmod>2026-10-11</lastmod><priority>0.9</priority></url>
+  <url><loc>https://mandagram.app/kb/intro/</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
+  <url><loc>https://mandagram.app/kb/installation/</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
+  <url><loc>https://mandagram.app/kb/hotkeys/</loc><lastmod>2026-10-11</lastmod><priority>0.7</priority></url>
+  <url><loc>https://mandagram.app/kb/quickstart/</loc><lastmod>2026-10-11</lastmod><priority>0.9</priority></url>
+  <url><loc>https://mandagram.app/kb/api/</loc><lastmod>2026-10-11</lastmod><priority>0.9</priority></url>
+  <url><loc>https://mandagram.app/kb/examples/</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
+  <url><loc>https://mandagram.app/kb/hotreload/</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
+  <url><loc>https://mandagram.app/kb/storage/</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
+  <url><loc>https://mandagram.app/kb/architecture/</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
+  <url><loc>https://mandagram.app/kb/themes/</loc><lastmod>2026-10-11</lastmod><priority>0.7</priority></url>
+  <url><loc>https://mandagram.app/kb/privacy/</loc><lastmod>2026-10-11</lastmod><priority>0.7</priority></url>
+  <url><loc>https://mandagram.app/kb/media/</loc><lastmod>2026-10-11</lastmod><priority>0.7</priority></url>
+  <url><loc>https://mandagram.app/kb/proxy/</loc><lastmod>2026-10-11</lastmod><priority>0.7</priority></url>
+  <url><loc>https://mandagram.app/kb/troubleshooting/</loc><lastmod>2026-10-11</lastmod><priority>0.7</priority></url>
+  <url><loc>https://mandagram.app/kb/community/</loc><lastmod>2026-10-11</lastmod><priority>0.7</priority></url>
+  <url><loc>https://mandagram.app/legal.html</loc><lastmod>2026-10-11</lastmod><priority>0.5</priority></url>
+  <url><loc>https://mandagram.app/pp.html</loc><lastmod>2026-10-11</lastmod><priority>0.5</priority></url>
+  <url><loc>https://mandagram.app/tos.html</loc><lastmod>2026-10-11</lastmod><priority>0.5</priority></url>
+</urlset>

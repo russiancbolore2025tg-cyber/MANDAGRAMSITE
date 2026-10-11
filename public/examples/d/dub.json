@@ -1,0 +1,8 @@
+{
+    "name": "mandagram-plugin-d",
+    "description": "MandaGram native dynamic plugin written in D (Dlang)",
+    "targetType": "dynamicLibrary",
+    "targetName": "sample_plugin_d",
+    "sourceFiles": ["mandagram_plugin.d"],
+    "dflags": ["-betterC"]
+}
