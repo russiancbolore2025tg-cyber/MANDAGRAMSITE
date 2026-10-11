@@ -1,0 +1,351 @@
+---
+import Base from "../../layouts/Base.astro";
+import { featuresEn } from "../../data/features";
+import { teamEn } from "../../data/team";
+import { kbPopularQuickLinks } from "../../data/kb";
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "MandaGram",
+    "operatingSystem": "Windows 10+, Linux x64",
+    "applicationCategory": "CommunicationApplication",
+    "fileFormat": "application/x-msdownload",
+    "downloadUrl": "https://mandagram.app/#download",
+    "softwareVersion": "1.0.0",
+    "datePublished": "2026-10-11",
+    "fileSize": "85 MB",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "description": "Native Telegram desktop client for PC with C ABI plugins (C++, Rust, Zig, D), hot-reloading on the fly, Material 3 Expressive dynamic themes, and built-in VLC.",
+    "featureList": [
+      "Native C ABI plugins",
+      "Hot-reload on the fly",
+      "Material 3 Expressive & Monet themes",
+      "Watchdog timer",
+      "Ghost Mode",
+      "Built-in VLC player",
+      "Smart proxy & ping benchmarking",
+      "Instant message translation"
+    ],
+    "image": "https://mandagram.app/assets/app_icon.png",
+    "author": { "@type": "Organization", "name": "MandaGram Team", "url": "https://mandagram.app/en/" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": "https://mandagram.app/en/",
+    "name": "MandaGram",
+    "inLanguage": "en-US"
+  }
+];
+
+const kbSearchListEn = JSON.stringify([
+  ["intro", "Introduction to MandaGram", "what is mandagram architecture overview concept"],
+  ["installation", "Installation on Windows & Linux", "install windows linux portable exe appimage download"],
+  ["hotkeys", "Hotkeys and Keyboard Shortcuts", "hotkeys shortcuts ctrl formatting keybinds"],
+  ["quickstart", "Quick Start: First Plugin", "quick start create plugin c abi init dll so"],
+  ["api", "C API & Method Interception", "c api hookparam hook before after method calls"],
+  ["examples", "Examples in C++, Rust, Zig & D", "code examples cpp rust zig d betterc source"],
+  ["hotreload", "Hot-Reload Without Restarts", "hot reload hot reloading runtime cache update"],
+  ["storage", "Storage, Settings & Watchdog", "watchdog crash recovery safe mode data cache settings"],
+  ["architecture", "Core Architecture & Compose", "architecture jni bytebuddy compose multiplatform slot api"],
+  ["themes", "Material 3 Expressive & Monet Themes", "themes monet evening red pistachio lavender google sans"],
+  ["privacy", "Privacy & Ghost Mode", "ghost mode peek preview read receipts applock"],
+  ["media", "Built-in VLC Media Player", "player vlc video audio codecs hardware acceleration"],
+  ["proxy", "Smart Proxy & Auto-Ping", "proxy mtproto socks5 ping benchmark auto switch"],
+  ["troubleshooting", "Troubleshooting & Safe Mode", "errors issues crashes safe mode plugin failed"],
+  ["community", "Community & Contacts", "community chat telegram github support"]
+]);
+---
+<Base
+  title="MandaGram"
+  description="Native Telegram client for Windows and Linux. C ABI plugins in C++, Rust, Zig, D, instant hot-reloading, ExteraMonet themes, Watchdog timer, and built-in VLC."
+  lang="en"
+  canonical="https://mandagram.app/en/"
+  isHome={true}
+  jsonLd={jsonLd}
+>
+  <main id="main">
+    <!-- 01 · Hero -->
+    <section aria-labelledby="hero-title" class="hero">
+      <div aria-hidden="true" class="glows">
+        <span class="glow glow--p g1"></span>
+        <span class="glow glow--p g2"></span>
+        <span class="glow glow--t g3"></span>
+        <span class="glow glow--t g4"></span>
+      </div>
+
+      <div class="hero-in">
+        <a aria-hidden="true" class="wordmark hero-mark rise" href="#main" style="--i:0" tabindex="-1">
+          <img src="/assets/app_icon.png" width="34" height="34" alt="MandaGram" class="ic" style="border-radius: 9px; object-fit: cover;" />
+          <span>MandaGram</span>
+        </a>
+
+        <div class="hero-copy">
+          <h1 class="rise" id="hero-title" style="--i:2">
+            <span class="hero-line">A client for those who value</span>
+            <span class="hero-line">
+              <span class="hero-morph" data-hero-morph="">
+                <span class="morph-word morph-word--style">style</span>
+                <span class="morph-word morph-word--swaga">swag</span>
+              </span>
+            </span>
+          </h1>
+          <p class="hero-sub rise" style="--i:3">
+            Pure MD3 expressive, innovative features missing elsewhere, custom multi-language plugin engine, built on a fresh foundation
+          </p>
+        </div>
+
+        <div class="cta rise" style="--i:4">
+          <a class="btn btn--lg btn--glass st" href="#knowledge">
+            <svg aria-hidden="true" class="ic" fill="currentColor" focusable="false" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+            </svg>
+            <span>Knowledge Search</span>
+          </a>
+          <a class="btn btn--lg btn--primary st" href="#download">
+            <svg aria-hidden="true" class="ic" fill="currentColor" focusable="false" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+              <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/>
+            </svg>
+            <span>Download</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 · Features -->
+    <section aria-labelledby="features-title" class="sec wrap" id="features">
+      <div class="feat" data-features="">
+        <div class="feat-l reveal">
+          <h2 class="h2" id="features-title">
+            Everything missing<br/> in official clients
+          </h2>
+
+          <div aria-label="MandaGram Features" class="chips" role="group">
+            {featuresEn.map((f, idx) => (
+              <button
+                aria-pressed={idx === 0 ? "true" : "false"}
+                class="chip fchip st"
+                data-feature={idx}
+                type="button"
+              >
+                <span aria-hidden="true" class="chk">
+                  <span>
+                    <svg aria-hidden="true" class="ic" fill="currentColor" focusable="false" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M9.9997 15.1709L19.1921 5.97852L20.6063 7.39273L9.9997 17.9993L3.63574 11.6354L5.04996 10.2212L9.9997 15.1709Z"/>
+                    </svg>
+                  </span>
+                </span>
+                {f.button}
+              </button>
+            ))}
+            <a class="chip chip--outline st" href="/kb/">And a bunch more</a>
+          </div>
+
+          <a class="btn btn--tonal btn--sm-ic st" href="/kb/">
+            <svg aria-hidden="true" class="ic" fill="currentColor" focusable="false" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-8.29-1.42 1.42L16.86 11H5v2z"/>
+            </svg>
+            <span>Knowledge</span>
+          </a>
+        </div>
+
+        <div class="cblock reveal" data-swipe="">
+          <div aria-live="polite" class="cb-text">
+            {featuresEn.map((f, idx) => (
+              <div
+                aria-hidden={idx === 0 ? "false" : "true"}
+                class={`cb-pane ${idx === 0 ? "is-on" : ""}`}
+                data-pane={idx}
+              >
+                <span class="well">
+                  <svg aria-hidden="true" class="ic" fill="currentColor" focusable="false" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                </span>
+
+                <div class="cb-copy">
+                  <h3 class="cb-title">{f.title}</h3>
+                  <p class="cb-sub">{f.description}</p>
+                </div>
+
+                <a class="pill st" href="/kb/quickstart/" tabindex={idx === 0 ? undefined : "-1"}>
+                  More details
+                  <svg aria-hidden="true" class="ic" fill="currentColor" focusable="false" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 6V8H5V19H16V14H18V20C18 20.5523 17.5523 21 17 21H4C3.44772 21 3 20.5523 3 20V7C3 6.44772 3.44772 6 4 6H10ZM21 3V11H19L18.9999 6.413L11.2071 14.2071L9.79289 12.7929L17.5849 5H13V3H21Z"/>
+                  </svg>
+                </a>
+              </div>
+            ))}
+          </div>
+
+          <!-- Full-width Screenshot Screen with exact 1240/788 aspect ratio, zero clipping -->
+          <div class="cb-screen" data-screen="">
+            {featuresEn.map((f, idx) => (
+              <div class={`shot ${idx === 0 ? "is-on" : ""}`} data-shot={idx}>
+                <picture>
+                  <source srcset={f.image} type="image/webp" />
+                  <img
+                    src={f.image.replace('.webp', '.jpg')}
+                    alt={`${f.title} — MandaGram`}
+                    width="1240"
+                    height="788"
+                    loading={idx === 0 ? "eager" : "lazy"}
+                    decoding="async"
+                    draggable="false"
+                  />
+                </picture>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 · Knowledge Base -->
+    <section aria-labelledby="kb-title" class="sec wrap" id="knowledge">
+      <div class="kb">
+        <div class="kb-head reveal">
+          <h2 class="h2-xl" id="kb-title">Documentation &amp; Guides</h2>
+          <p class="kb-sub">
+            Complete technical documentation for C ABI hooks, ByteBuddy bytecode interception, HookParam structs, C++/Rust/Zig/D plugin builds, and advanced client settings.
+          </p>
+        </div>
+
+        <div
+          class="kb-box reveal"
+          data-empty="No results found — try a shorter query"
+          data-kb=""
+          data-list={kbSearchListEn}
+          data-popular={JSON.stringify(kbPopularQuickLinks)}
+        >
+          <form action="/kb/" class="search" method="get" role="search">
+            <label class="sfield">
+              <svg aria-hidden="true" class="ic" fill="currentColor" focusable="false" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"/>
+              </svg>
+              <span class="sr-only">Search documentation</span>
+              <input autocomplete="off" data-kb-input="" enterkeyhint="search" name="q" placeholder="Search documentation &amp; API" type="search" />
+            </label>
+            <button class="btn btn--primary btn--sm-ic st" type="submit">
+              <svg aria-hidden="true" class="ic" fill="currentColor" focusable="false" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-8.29-1.42 1.42L16.86 11H5v2z"/>
+              </svg>
+              <span>Search</span>
+            </button>
+          </form>
+
+          <div aria-label="Popular articles" aria-live="polite" class="chips kb-links" data-kb-links="">
+            {kbPopularQuickLinks.map(([slug, title], idx) => (
+              <a class="chip chip--link st" href={`/kb/${slug}/`} style={`--i:${idx}`}>
+                <svg aria-hidden="true" class="ic" fill="currentColor" focusable="false" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M10 6V8H5V19H16V14H18V20C18 20.5523 17.5523 21 17 21H4C3.44772 21 3 20.5523 3 20V7C3 6.44772 3.44772 6 4 6H10ZM21 3V11H19L18.9999 6.413L11.2071 14.2071L9.79289 12.7929L17.5849 5H13V3H21Z"/>
+                </svg>
+                {title}
+              </a>
+            ))}
+          </div>
+
+          <a class="btn btn--primary btn--sm-ic st kb-mobile-open" href="/kb/">
+            <svg aria-hidden="true" class="ic" fill="currentColor" focusable="false" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-8.29-1.42 1.42L16.86 11H5v2z"/>
+            </svg>
+            <span>Open All Guides</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 · Team -->
+    <section aria-labelledby="team-title" class="sec wrap" id="team">
+      <div class="team">
+        <h2 class="h2 reveal" id="team-title">MandaGram Team</h2>
+        <div aria-label="Who makes MandaGram" aria-roledescription="carousel" class="tcar reveal" data-tcar="" role="region">
+          <div class="tcar-track" data-tcar-track="">
+            {teamEn.map((m, idx) => (
+              <div class="tslot" style={`--k:${idx}`}>
+                <a aria-label={`${m.name} — ${m.role}`} class={`tcard ${m.tone}`} draggable="false" href={m.telegram} rel="noopener" target="_blank">
+                  <div class="tc-in">
+                    <div class="tc-top">
+                      <img alt="" decoding="async" draggable="false" height="44" width="44" loading="lazy" src={m.avatar} style="border-radius: 50%; object-fit: cover;" />
+                      <span class="tc-go">
+                        <svg aria-hidden="true" class="ic" fill="currentColor" focusable="false" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M10 6V8H5V19H16V14H18V20C18 20.5523 17.5523 21 17 21H4C3.44772 21 3 20.5523 3 20V7C3 6.44772 3.44772 6 4 6H10ZM21 3V11H19L18.9999 6.413L11.2071 14.2071L9.79289 12.7929L17.5849 5H13V3H21Z"/>
+                        </svg>
+                      </span>
+                    </div>
+                    <div class="tc-meta">
+                      <div class="tc-name-row">
+                        <p class="tc-name">{m.name}</p>
+                        {m.alias && <span class="tc-alias">{m.alias}</span>}
+                      </div>
+                      <p class="tc-role">{m.role}</p>
+                    </div>
+                    <div class="tc-tags">
+                      {m.tags.map(t => <span>{t}</span>)}
+                    </div>
+                  </div>
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 · Download -->
+    <section aria-labelledby="dl-title" class="sec wrap" id="download">
+      <div aria-hidden="true" class="dl-glow">
+        <span class="glow glow--p a"></span>
+        <span class="glow glow--p b"></span>
+        <span class="glow glow--t c"></span>
+        <span class="glow glow--t d"></span>
+      </div>
+
+      <div class="dl">
+        <div class="dl-head reveal">
+          <h2 class="h2" id="dl-title">Download MandaGram</h2>
+        </div>
+
+        <div aria-label="Download Mirrors" class="mirrors" role="list">
+          <!-- Telegram Channel -->
+          <a class="mirror st reveal mirror--p" href="https://t.me/MandaGram" rel="noopener" role="listitem" target="_blank">
+            <span class="m-ic">
+              <svg aria-hidden="true" class="ic" fill="currentColor" focusable="false" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.17 3.35-1.37 3.73-1.38.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+              </svg>
+            </span>
+            <span class="m-t">
+              <strong>TGK</strong>
+              <small>News, releases, announcements</small>
+            </span>
+            <span class="m-dl">
+              <svg aria-hidden="true" class="ic" fill="currentColor" focusable="false" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-8.29-1.42 1.42L16.86 11H5v2z"/>
+              </svg>
+            </span>
+          </a>
+
+          <!-- GitHub -->
+          <a class="mirror st reveal" href="https://github.com/GrapeS-T/MandaGram" rel="noopener" role="listitem" target="_blank">
+            <span class="m-ic">
+              <svg aria-hidden="true" class="ic" fill="currentColor" focusable="false" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+              </svg>
+            </span>
+            <span class="m-t">
+              <strong>GitHub</strong>
+              <small>Source code, releases</small>
+            </span>
+            <span class="m-dl">
+              <svg aria-hidden="true" class="ic" fill="currentColor" focusable="false" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-8.29-1.42 1.42L16.86 11H5v2z"/>
+              </svg>
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Base>

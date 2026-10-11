@@ -1,0 +1,15 @@
+---
+import Kb from '../layouts/Kb.astro';
+import { legalDocs } from '../data/legal';
+
+const doc = legalDocs['pp'];
+---
+<Kb
+  title={doc.title}
+  isDoc={true}
+  headings={doc.headings}
+  docAfter={doc.docAfter}
+  pager={doc.pager}
+>
+  <div set:html={doc.content} />
+</Kb>

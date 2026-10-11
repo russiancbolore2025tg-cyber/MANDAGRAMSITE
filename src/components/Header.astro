@@ -1,0 +1,91 @@
+---
+interface Props {
+  lang?: 'ru' | 'en';
+  activeNav?: string;
+  isHome?: boolean;
+}
+
+const { lang = 'ru', activeNav = '', isHome = false } = Astro.props;
+
+const homeHref = lang === 'en' ? '/en/' : '/';
+
+const navItems = lang === 'en' ? [
+  { id: 'features', label: 'Features', href: isHome ? '#features' : '/en/#features' },
+  { id: 'knowledge', label: 'Docs & Plugins', href: isHome ? '#knowledge' : '/kb/' },
+  { id: 'team', label: 'Team', href: isHome ? '#team' : '/en/#team' },
+  { id: 'download', label: 'Download', href: isHome ? '#download' : '/en/#download' },
+] : [
+  { id: 'features', label: 'Возможности', href: isHome ? '#features' : '/#features' },
+  { id: 'knowledge', label: 'База знаний', href: isHome ? '#knowledge' : '/kb/' },
+  { id: 'team', label: 'Команда', href: isHome ? '#team' : '/#team' },
+  { id: 'download', label: 'Скачать', href: isHome ? '#download' : '/#download' },
+];
+---
+<header class="hdr" data-hdr="">
+  <a class="wordmark" href={homeHref} aria-label="MandaGram Desktop">
+    <img src="/assets/app_icon.png" width="28" height="28" alt="MandaGram" class="ic brand-logo-img" style="border-radius: 7px; display: inline-block; object-fit: cover;" />
+    <span>MandaGram</span>
+  </a>
+
+  <nav class="nav" data-nav="" data-active={activeNav || undefined}>
+    <span class="nav-ind" aria-hidden="true"></span>
+    {navItems.map(item => (
+      <a href={item.href} data-spy={item.id} class={activeNav === item.id ? 'is-active' : ''}>
+        {item.label}
+      </a>
+    ))}
+  </nav>
+
+  <div class="tools">
+    <div class="seg" role="group" aria-label={lang === 'en' ? 'Color theme' : 'Тема оформления'}>
+      <button type="button" class="st" data-theme-btn="dark" aria-label={lang === 'en' ? 'Dark theme' : 'Тёмная тема'} aria-pressed="true">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" class="ic" aria-hidden="true" focusable="false"><path d="M10 7C10 10.866 13.134 14 17 14C18.9584 14 20.7288 13.1957 21.9995 11.8995C22 11.933 22 11.9665 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C12.0335 2 12.067 2 12.1005 2.00049C10.8043 3.27124 10 5.04157 10 7ZM4 12C4 16.4183 7.58172 20 12 20C15.0583 20 17.7158 18.2839 19.062 15.7621C18.3945 15.9187 17.7035 16 17 16C12.0294 16 8 11.9706 8 7C8 6.29648 8.08133 5.60549 8.2379 4.93799C5.71612 6.28417 4 8.9417 4 12Z"></path></svg>
+      </button>
+      <button type="button" class="st" data-theme-btn="light" aria-label={lang === 'en' ? 'Light theme' : 'Светлая тема'} aria-pressed="false">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" class="ic" aria-hidden="true" focusable="false"><path d="M12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12C18 15.3137 15.3137 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM11 1H13V4H11V1ZM11 20H13V23H11V20ZM3.51472 4.92893L4.92893 3.51472L7.05025 5.63604L5.63604 7.05025L3.51472 4.92893ZM16.9497 18.364L18.364 16.9497L20.4853 19.0711L19.0711 20.4853L16.9497 18.364ZM19.0711 3.51472L20.4853 4.92893L18.364 7.05025L16.9497 5.63604L19.0711 3.51472ZM5.63604 16.9497L7.05025 18.364L4.92893 20.4853L3.51472 19.0711L5.63604 16.9497ZM23 11V13H20V11H23ZM4 11V13H1V11H4Z"></path></svg>
+      </button>
+    </div>
+
+    <!-- Языковое меню -->
+    <button 
+      class="icon-btn st lang" 
+      type="button" 
+      data-pop="pop-lang" 
+      aria-expanded="false" 
+      aria-haspopup="true" 
+      aria-label={lang === 'en' ? 'Choose language' : 'Выбрать язык'}
+      data-label-open={lang === 'en' ? 'Choose language' : 'Выбрать язык'}
+      data-label-close={lang === 'en' ? 'Close language menu' : 'Закрыть меню языка'}
+    >
+      <span class="lang-cur">{lang.toUpperCase()}</span>
+    </button>
+
+    <div class="pop pop--menu" id="pop-lang" role="menu" aria-label={lang === 'en' ? 'Language choice' : 'Выбор языка'}>
+      <a class={`st ${lang === 'ru' ? 'is-cur' : ''}`} href="/" data-set-lang="ru" role="menuitem">Русский</a>
+      <a class={`st ${lang === 'en' ? 'is-cur' : ''}`} href="/en/" data-set-lang="en" role="menuitem">English</a>
+    </div>
+
+    <!-- Мобильное бургер-меню -->
+    <button 
+      class="icon-btn st menu-btn" 
+      type="button" 
+      data-pop="pop-nav" 
+      aria-expanded="false" 
+      aria-haspopup="true" 
+      aria-label={lang === 'en' ? 'Open navigation' : 'Открыть навигацию'}
+      data-label-open={lang === 'en' ? 'Open navigation' : 'Открыть навигацию'}
+      data-label-close={lang === 'en' ? 'Close navigation' : 'Закрыть навигацию'}
+    >
+      <svg class="ic mi-open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M3 4H21V6H3V4ZM3 11H21V13H3V11ZM3 18H21V20H3V18Z"></path></svg>
+      <svg class="ic mi-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false" hidden=""><path d="M11.9997 10.5865L16.9495 5.63672L18.3637 7.05093L13.4139 12.0007L18.3637 16.9504L16.9495 18.3646L11.9997 13.4149L7.04996 18.3646L5.63574 16.9504L10.5855 12.0007L5.63574 7.05093L7.04996 5.63672L11.9997 10.5865Z"></path></svg>
+    </button>
+
+    <div class="pop pop--menu" id="pop-nav" role="menu" aria-label={lang === 'en' ? 'Navigation' : 'Навигация'}>
+      {navItems.map(item => (
+        <a class="st" href={item.href} role="menuitem">{item.label}</a>
+      ))}
+      <a class="st" href="/kb/" role="menuitem">{lang === 'en' ? 'Knowledge Base' : 'База знаний'}</a>
+      <a class="st" href="https://t.me/MandaGram" target="_blank" rel="noopener" role="menuitem">Telegram</a>
+    </div>
+  </div>
+</header>

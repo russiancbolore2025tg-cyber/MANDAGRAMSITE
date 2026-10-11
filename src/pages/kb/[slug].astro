@@ -1,0 +1,25 @@
+---
+import Kb from '../../layouts/Kb.astro';
+import { kbArticles } from '../../data/kb';
+
+export function getStaticPaths() {
+  return Object.keys(kbArticles).map(slug => ({
+    params: { slug },
+    props: { article: kbArticles[slug] }
+  }));
+}
+
+const { article } = Astro.props;
+---
+<Kb
+  title={article.title}
+  category={article.category}
+  readingTime={article.readingTime}
+  sectionsCount={article.sectionsCount}
+  currentSlug={article.slug}
+  headings={article.headings}
+  prev={article.prev}
+  next={article.next}
+>
+  <div set:html={article.content} />
+</Kb>

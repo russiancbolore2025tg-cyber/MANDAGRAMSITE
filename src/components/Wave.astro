@@ -1,0 +1,79 @@
+---
+// Native HTML5 Canvas animated wave separator
+---
+<div class="wave" aria-hidden="true">
+  <canvas class="wave-canvas" height="24"></canvas>
+</div>
+
+<script is:inline>
+  (() => {
+    const canvas = document.querySelector('.wave-canvas');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let width = 0;
+    const height = 24;
+    let offset = 0;
+    let isVisible = true;
+    const period = 40; // wavelength in px
+    const speed = 18; // px / sec
+
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = canvas.parentElement ? canvas.parentElement.clientWidth : window.innerWidth;
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+
+    const getColor = () => {
+      return getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '#E2B2A2';
+    };
+
+    let lastTime = 0;
+    const draw = (time) => {
+      if (isVisible) {
+        if (!lastTime) lastTime = time;
+        const dt = Math.min((time - lastTime) / 1000, 0.1);
+        lastTime = time;
+
+        offset = (offset + speed * dt) % period;
+
+        ctx.clearRect(0, 0, width, height);
+        ctx.strokeStyle = getColor();
+        ctx.lineWidth = 3.5;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+
+        ctx.beginPath();
+        const startX = -period * 2 - offset;
+        const endX = width + period * 2;
+        const cy = 12;
+
+        ctx.moveTo(startX, cy);
+        for (let x = startX; x < endX; x += period) {
+          ctx.quadraticCurveTo(x + 10, cy - 7, x + 20, cy);
+          ctx.quadraticCurveTo(x + 30, cy + 7, x + 40, cy);
+        }
+        ctx.stroke();
+      } else {
+        lastTime = time;
+      }
+
+      requestAnimationFrame(draw);
+    };
+
+    window.addEventListener('resize', resize, { passive: true });
+    resize();
+    requestAnimationFrame(draw);
+
+    if ('IntersectionObserver' in window) {
+      const obs = new IntersectionObserver(([entry]) => {
+        isVisible = entry.isIntersecting;
+      }, { rootMargin: '100px' });
+      obs.observe(canvas);
+    }
+  })();
+</script>

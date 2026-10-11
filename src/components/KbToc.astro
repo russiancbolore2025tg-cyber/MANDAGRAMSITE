@@ -1,0 +1,35 @@
+---
+interface Props {
+  headings: Array<{ level: number; id: string; text: string }>;
+  isSheet?: boolean;
+}
+
+const { headings, isSheet = false } = Astro.props;
+---
+{isSheet ? (
+  <ul class="sheet-toc">
+    {headings.map(h => (
+      <li class={h.level === 3 ? 'd3' : 'd2'}>
+        <a href={`#${h.id}`}>{h.text}</a>
+      </li>
+    ))}
+  </ul>
+) : (
+  <aside class="kba-toc" aria-label="Содержание">
+    <div class="kba-toc-in" data-toc="">
+      <p class="knav-t">На этой странице</p>
+      <span class="toc-ind" aria-hidden="true"></span>
+      <ul>
+        {headings.map(h => (
+          <li class={h.level === 3 ? 'd3' : 'd2'}>
+            <a data-toc-link={h.id} href={`#${h.id}`}>{h.text}</a>
+          </li>
+        ))}
+      </ul>
+      <a class="toc-top" href="#main">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" class="ic" aria-hidden="true" focusable="false"><path d="M13.0001 7.82843V20H11.0001V7.82843L5.63614 13.1924L4.22192 11.7782L12.0001 4L19.7783 11.7782L18.3641 13.1924L13.0001 7.82843Z"></path></svg>
+        Наверх
+      </a>
+    </div>
+  </aside>
+)}

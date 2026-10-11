@@ -1,0 +1,264 @@
+---
+import '../styles/kb.css';
+import Base from './Base.astro';
+import KbSidebar from '../components/KbSidebar.astro';
+import KbToc from '../components/KbToc.astro';
+import KbSearch from '../components/KbSearch.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  category?: string;
+  readingTime?: string;
+  sectionsCount?: string;
+  currentSlug?: string;
+  isDoc?: boolean;
+  headings?: Array<{ level: number; id: string; text: string }>;
+  prev?: { slug: string; title: string } | null;
+  next?: { slug: string; title: string } | null;
+  docAfter?: string;
+  pager?: Array<{ href: string; title: string; label: string; isNext: boolean }>;
+}
+
+const {
+  title,
+  description = 'Документация и база знаний MandaGram — руководство разработчика плагинов C ABI, архитектура, C++, Rust, Zig, D и настройки.',
+  category = '',
+  readingTime = '',
+  sectionsCount = '',
+  currentSlug = '',
+  isDoc = false,
+  headings = [],
+  prev = null,
+  next = null,
+  docAfter = '',
+  pager = []
+} = Astro.props;
+
+const pageTitle = isDoc ? `${title} — MandaGram Desktop` : `${title} — Документация MandaGram`;
+---
+<Base title={pageTitle} description={description} activeNav={isDoc ? '' : 'knowledge'} langRedirect={false}>
+  <main id="main" class={`wrap kba ${isDoc ? 'kba--doc' : ''}`}>
+    {!isDoc && (
+      <aside class="kba-side" aria-label="Навигация по документации">
+        <div class="kba-side-in">
+          <KbSearch size="sm" idPrefix="kbs-side" />
+          <KbSidebar currentSlug={currentSlug} />
+        </div>
+      </aside>
+    )}
+
+    <article class="kba-main">
+      {!isDoc && (
+        <div class="kba-bar">
+          <button class="btn btn--tonal kba-sections st" type="button" data-sheet-open="kb-sheet">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" class="ic" aria-hidden="true" focusable="false"><path d="M3 4H21V6H3V4ZM3 11H21V13H3V11ZM3 18H21V20H3V18Z"></path></svg>
+            <span>Разделы</span>
+          </button>
+          <button class="btn btn--tonal kba-toc-btn st" type="button" data-sheet-open="toc-sheet">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" class="ic" aria-hidden="true" focusable="false"><path d="M3 4H21V6H3V4ZM3 11H15V13H3V11ZM3 18H11V20H3V18Z"></path></svg>
+            <span>Содержание</span>
+          </button>
+        </div>
+      )}
+
+      <header class="kba-head">
+        {isDoc ? (
+          <nav class="crumbs">
+            <a href="/">Главная</a>
+            <span>/</span>
+            <span>Документы</span>
+          </nav>
+        ) : (
+          <nav class="crumbs">
+            <a href="/kb/">База знаний</a>
+            {category && (
+              <>
+                <span>/</span>
+                <span>{category}</span>
+              </>
+            )}
+          </nav>
+        )}
+        <h1>{title}</h1>
+        {!isDoc && (
+          <div class="kba-meta">
+            {readingTime && <span>{readingTime}</span>}
+            {sectionsCount && <span>{sectionsCount}</span>}
+          </div>
+        )}
+      </header>
+
+      <div class="kba-body prose">
+        <slot />
+      </div>
+
+      {docAfter && <p class="doc-after">{docAfter}</p>}
+
+      {pager && pager.length > 0 && (
+        <nav class="pager" aria-label="Соседние страницы">
+          {pager.map(p => (
+            <a href={p.href} class={`pg st ${p.isNext ? 'pg--next' : 'pg--prev'}`}>
+              <span class="pg-lbl">{p.label}</span>
+              <strong class="pg-ttl">{p.title}</strong>
+            </a>
+          ))}
+        </nav>
+      )}
+
+      {!isDoc && (prev || next) && (
+        <nav class="pager" aria-label="Соседние статьи">
+          {prev ? (
+            <a href={`/kb/${prev.slug}/`} class="pg pg--prev st">
+              <span class="pg-lbl">Назад</span>
+              <strong class="pg-ttl">{prev.title}</strong>
+            </a>
+          ) : <div />}
+          {next ? (
+            <a href={`/kb/${next.slug}/`} class="pg pg--next st">
+              <span class="pg-lbl">Далее</span>
+              <strong class="pg-ttl">{next.title}</strong>
+            </a>
+          ) : <div />}
+        </nav>
+      )}
+    </article>
+
+    {!isDoc && headings && headings.length > 0 && (
+      <KbToc headings={headings} />
+    )}
+  </main>
+
+  <!-- Мобильные шторки (Bottom Sheets) -->
+  {!isDoc && (
+    <>
+      <div class="sheet-scrim" id="sheet-scrim" hidden="" data-sheet-scrim=""></div>
+      
+      <div class="sheet" id="kb-sheet" role="dialog" aria-modal="true" aria-label="Разделы документации" hidden="" data-sheet="">
+        <div class="sheet-drag" aria-hidden="true"><span></span></div>
+        <div class="sheet-head">
+          <h2>Разделы</h2>
+          <button class="sheet-close st" type="button" aria-label="Закрыть" data-sheet-close="">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" class="ic" aria-hidden="true" focusable="false"><path d="M11.9997 10.5865L16.9495 5.63672L18.3637 7.05093L13.4139 12.0007L18.3637 16.9504L16.9495 18.3646L11.9997 13.4149L7.04996 18.3646L5.63574 16.9504L10.5855 12.0007L5.63574 7.05093L7.04996 5.63672L11.9997 10.5865Z"></path></svg>
+          </button>
+        </div>
+        <div class="sheet-body">
+          <KbSidebar currentSlug={currentSlug} isSheet={true} />
+        </div>
+      </div>
+
+      <div class="sheet" id="toc-sheet" role="dialog" aria-modal="true" aria-label="Содержание статьи" hidden="" data-sheet="">
+        <div class="sheet-drag" aria-hidden="true"><span></span></div>
+        <div class="sheet-head">
+          <h2>Содержание</h2>
+          <button class="sheet-close st" type="button" aria-label="Закрыть" data-sheet-close="">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" class="ic" aria-hidden="true" focusable="false"><path d="M11.9997 10.5865L16.9495 5.63672L18.3637 7.05093L13.4139 12.0007L18.3637 16.9504L16.9495 18.3646L11.9997 13.4149L7.04996 18.3646L5.63574 16.9504L10.5855 12.0007L5.63574 7.05093L7.04996 5.63672L11.9997 10.5865Z"></path></svg>
+          </button>
+        </div>
+        <div class="sheet-body">
+          <KbToc headings={headings} isSheet={true} />
+        </div>
+      </div>
+    </>
+  )}
+
+  <!-- TOC Scrollspy Script & Last Read Tracker -->
+  <script is:inline define:vars={{ currentSlug }}>
+    document.addEventListener("DOMContentLoaded", () => {
+      if (currentSlug) {
+        try {
+          localStorage.setItem("mandagram_last_article", currentSlug);
+        } catch (_) {}
+      }
+
+      const toc = document.querySelector("[data-toc]");
+      if (toc) {
+        const ind = toc.querySelector(".toc-ind");
+        const list = toc.querySelector("ul");
+        const links = [...toc.querySelectorAll("[data-toc-link]")];
+        const headingElements = links
+          .map(link => document.getElementById(link.dataset.tocLink))
+          .filter(Boolean);
+
+        if (headingElements.length > 0) {
+          let activeIndex = -1;
+          let ticking = false;
+
+          const onScroll = () => {
+            ticking = false;
+            let threshold = window.innerHeight * 0.32;
+            let current = -1;
+
+            for (let i = 0; i < headingElements.length; i++) {
+              if (headingElements[i].getBoundingClientRect().top <= threshold) {
+                current = i;
+              }
+            }
+
+            if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 20) {
+              current = headingElements.length - 1;
+            }
+
+            if (current < 0) current = 0;
+
+            if (current === activeIndex) return;
+            activeIndex = current;
+
+            links.forEach((link, idx) => {
+              link.classList.toggle("is-on", idx === activeIndex);
+            });
+
+            if (activeIndex < 0) {
+              if (ind) ind.style.opacity = "0";
+              return;
+            }
+
+            const targetLink = links[activeIndex];
+            if (ind && targetLink && list) {
+              ind.style.opacity = "1";
+              ind.style.height = `${targetLink.offsetHeight}px`;
+              ind.style.transform = `translateY(${list.offsetTop + targetLink.offsetTop - list.scrollTop}px)`;
+            }
+          };
+
+          window.addEventListener("scroll", () => {
+            if (!ticking) {
+              ticking = true;
+              requestAnimationFrame(onScroll);
+            }
+          }, { passive: true });
+
+          window.addEventListener("resize", () => {
+            activeIndex = -2;
+            onScroll();
+          }, { passive: true });
+
+          onScroll();
+        }
+      }
+
+      // Bottom sheets
+      document.querySelectorAll("[data-sheet-open]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const sheet = document.getElementById(btn.dataset.sheetOpen);
+          const scrim = document.getElementById("sheet-scrim");
+          if (sheet) sheet.removeAttribute("hidden");
+          if (scrim) scrim.removeAttribute("hidden");
+        });
+      });
+
+      const closeSheets = () => {
+        document.querySelectorAll("[data-sheet]").forEach(s => s.setAttribute("hidden", ""));
+        const scrim = document.getElementById("sheet-scrim");
+        if (scrim) scrim.setAttribute("hidden", "");
+      };
+
+      document.querySelectorAll("[data-sheet-close]").forEach(btn => {
+        btn.addEventListener("click", closeSheets);
+      });
+
+      const scrim = document.getElementById("sheet-scrim");
+      if (scrim) scrim.addEventListener("click", closeSheets);
+    });
+  </script>
+</Base>

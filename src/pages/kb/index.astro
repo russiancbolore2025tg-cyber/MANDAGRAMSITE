@@ -1,0 +1,92 @@
+---
+import Base from '../../layouts/Base.astro';
+import '../../styles/kb.css';
+import KbSearch from '../../components/KbSearch.astro';
+import { kbCategories, kbPopularQuickLinks } from '../../data/kb';
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "База знаний и документация MandaGram",
+    "url": "https://mandagram.app/kb/",
+    "inLanguage": "ru-RU",
+    "description": "База знаний и документация MandaGram — руководство разработчика плагинов C ABI, архитектура, C++, Rust, Zig, D и настройки клиента."
+  }
+];
+---
+<Base 
+  title="База знаний и документация MandaGram" 
+  description="Официальная документация и база знаний MandaGram — разработка нативных C ABI плагинов, C++, Rust, Zig, D, архитектура ядра TDLib и настройки клиента." 
+  activeNav="knowledge" 
+  langRedirect={false} 
+  jsonLd={jsonLd}
+>
+  <main id="main">
+    <section class="kbi-hero">
+      <div class="glows kb-glows" aria-hidden="true">
+        <span class="glow glow--p g1"></span>
+        <span class="glow glow--t g3"></span>
+        <span class="glow glow--t g4"></span>
+      </div>
+      <div class="wrap kbi-head">
+        <h1 class="h2-xl">База знаний и документация</h1>
+        <p class="kb-sub">Руководство разработчика плагинов C ABI, архитектура перехвата, примеры кода и инструкции</p>
+        <div class="kbi-search">
+          <KbSearch size="lg" idPrefix="kbs-hero" placeholder="Поиск по документации и API" />
+          <div class="chips kbi-pop">
+            {kbPopularQuickLinks.map(([slug, title], idx) => (
+              <a class="chip chip--link st" style={`--i:${idx}`} href={`/kb/${slug}/`}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" class="ic" aria-hidden="true" focusable="false"><path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4ZM13 12H16V14H11V7H13V12Z"></path></svg>
+                {title}
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap kbi-groups" aria-label="Разделы документации">
+      {kbCategories.map((group, idx) => (
+        <article class="kgroup" style={`--i:${idx}`}>
+          <div class="kgroup-head">
+            <span class="well">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" class="ic" aria-hidden="true" focusable="false"><path d="M21 4H3C2.44772 4 2 4.44772 2 5V19C2 19.5523 2.44772 20 3 20H21C21.5523 20 22 19.5523 22 19V5C22 4.44772 21.5523 4 21 4ZM20 18H4V6H20V18ZM6 9H18V11H6V9ZM6 13H14V15H6V13Z"></path></svg>
+            </span>
+            <div>
+              <h2>{group.title}</h2>
+              <p>{group.description}</p>
+            </div>
+          </div>
+          <ul>
+            {group.articles.map(art => (
+              <li>
+                <a class="krow st" href={`/kb/${art.slug}/`} data-article-slug={art.slug}>
+                  <div class="krow-t">
+                    <strong>{art.title}</strong>
+                    <span class="krow-m">{art.readTime}</span>
+                  </div>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" class="ic krow-a" aria-hidden="true" focusable="false"><path d="M13.1717 12.0007L8.22192 7.05093L9.63614 5.63672L16.0001 12.0007L9.63614 18.3646L8.22192 16.9504L13.1717 12.0007Z"></path></svg>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </section>
+  </main>
+
+  <script is:inline>
+    document.addEventListener("DOMContentLoaded", () => {
+      try {
+        const lastSlug = localStorage.getItem("mandagram_last_article");
+        if (lastSlug) {
+          const item = document.querySelector(`[data-article-slug="${lastSlug}"]`);
+          if (item) {
+            item.classList.add("is-last-read");
+          }
+        }
+      } catch (_) {}
+    });
+  </script>
+</Base>

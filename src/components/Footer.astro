@@ -1,0 +1,63 @@
+---
+interface Props {
+  lang?: 'ru' | 'en';
+}
+
+const { lang = 'ru' } = Astro.props;
+const prefix = lang === 'en' ? '/en/' : '/';
+---
+<footer class="ftr wrap">
+  <div class="ftr-top">
+    <div class="ftr-brand reveal">
+      <a class="wordmark" href={prefix} aria-label="MandaGram">
+        <img src="/assets/app_icon.png" width="30" height="30" alt="MandaGram" class="ic" style="border-radius: 8px; display: inline-block; object-fit: cover;" />
+        <span>MandaGram</span>
+      </a>
+      <div>
+        <p>{lang === 'en' ? 'A free Telegram modification for PC. Independent open-source project, not affiliated with Telegram FZ-LLC.' : 'Бесплатная модификация Telegram для ПК. Проект не связан с Telegram FZ-LLC.'}</p>
+        <p style="margin-top:16px">MandaGram © 2026</p>
+      </div>
+    </div>
+
+    <nav class="ftr-cols" aria-label="Footer">
+      <div class="ftr-col reveal">
+        <h3>{lang === 'en' ? 'Product' : 'Продукт'}</h3>
+        <ul>
+          <li><a href={prefix + "#features"}>{lang === 'en' ? 'Features' : 'Возможности'}</a></li>
+          <li><a href="/kb/">{lang === 'en' ? 'Knowledge Base' : 'База знаний'}</a></li>
+          <li><a href={prefix + "#team"}>{lang === 'en' ? 'Team' : 'Команда'}</a></li>
+          <li><a href={prefix + "#download"}>{lang === 'en' ? 'Download' : 'Скачать'}</a></li>
+        </ul>
+      </div>
+
+      <div class="ftr-col reveal">
+        <h3>{lang === 'en' ? 'Knowledge Base' : 'База знаний'}</h3>
+        <ul>
+          <li><a href="/kb/intro/">{lang === 'en' ? 'About client' : 'О клиенте'}</a></li>
+          <li><a href="/kb/installation/">{lang === 'en' ? 'Installation' : 'Установка'}</a></li>
+          <li><a href="/kb/hotkeys/">{lang === 'en' ? 'Settings & features' : 'Настройки и функции'}</a></li>
+          <li><a href="/kb/troubleshooting/">{lang === 'en' ? 'Errors and issues' : 'Ошибки и проблемы'}</a></li>
+        </ul>
+      </div>
+
+      <div class="ftr-col reveal">
+        <h3>{lang === 'en' ? 'Community' : 'Сообщество'}</h3>
+        <ul>
+          <li><a href="https://t.me/MandaGram" target="_blank" rel="noopener">{lang === 'en' ? 'Telegram channel' : 'ТГК (@MandaGram)'}</a></li>
+          <li><a href="https://t.me/MandaBeta" target="_blank" rel="noopener">{lang === 'en' ? 'Beta releases' : 'Беты (@MandaBeta)'}</a></li>
+          <li><a href="https://t.me/+orCNbISKx9dkYjgy" target="_blank" rel="noopener">{lang === 'en' ? 'CBT Chat' : 'КБТ'}</a></li>
+          <li><a href="https://github.com/GrapeS-T/MandaGram" target="_blank" rel="noopener">{lang === 'en' ? 'GitHub' : 'Гитхаб'}</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+  <div class="ftr-bottom">
+    <div></div>
+    <div class="legal-links">
+      <a href="/pp.html">{lang === 'en' ? 'Privacy policy' : 'Политика конфиденциальности'}</a>
+      <a href="/tos.html">{lang === 'en' ? 'Terms' : 'Соглашение'}</a>
+      <a href="/legal.html">{lang === 'en' ? 'Legal information' : 'Правовая информация'}</a>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,106 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Wave from '../components/Wave.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  lang?: 'ru' | 'en';
+  canonical?: string;
+  langRedirect?: boolean;
+  enPath?: string;
+  activeNav?: string;
+  isHome?: boolean;
+  jsonLd?: object[];
+}
+
+const {
+  title = 'MandaGram — нативный Telegram клиент на ПК с плагинами и Material 3 Expressive',
+  description = 'MandaGram — быстрый Telegram-клиент для Windows и Linux. Нативные C ABI плагины на C++, Rust, Zig и D, горячая перезагрузка без перезапуска, темы ExteraMonet, защита Watchdog и медиаплеер VLC.',
+  lang = 'ru',
+  canonical = 'https://mandagram.app/',
+  langRedirect = true,
+  enPath = '/en/',
+  activeNav = '',
+  isHome = false,
+  jsonLd = []
+} = Astro.props;
+---
+<!DOCTYPE html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="ru" href="https://mandagram.app/" />
+    <link rel="alternate" hreflang="en" href="https://mandagram.app/en/" />
+    <link rel="alternate" hreflang="x-default" href="https://mandagram.app/" />
+    <meta name="theme-color" content="#151210" />
+    <link rel="icon" href="/favicon.svg?v=3" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32x32.png?v=3" type="image/png" sizes="32x32" />
+    <link rel="icon" href="/favicon-16x16.png?v=3" type="image/png" sizes="16x16" />
+    <link rel="icon" href="/favicon.png?v=3" type="image/png" sizes="192x192" />
+    <link rel="shortcut icon" href="/favicon.ico?v=3" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=3" />
+    <link rel="preload" href="/fonts/gs-cyrillic.woff2" as="font" type="font/woff2" crossorigin="" />
+    <link rel="preload" href="/fonts/gs-latin.woff2" as="font" type="font/woff2" crossorigin="" />
+
+    <!-- Theme & Locale Pre-initialization -->
+    <script is:inline define:vars={{ langRedirect, enPath }}>
+      (function () {
+        try {
+          var d = document.documentElement;
+          if ("IntersectionObserver" in window && !matchMedia("(prefers-reduced-motion: reduce)").matches) d.classList.add("rv");
+          var t = localStorage.getItem("mandagram-theme") || localStorage.getItem("ttu-theme");
+          if (t === "light" || t === "dark") d.dataset.theme = t;
+          if (t === "light") document.querySelector('meta[name="theme-color"]').content = "#FFF8F6";
+          if (langRedirect && localStorage.getItem("mandagram-lang") === "en" && !location.search.includes("lang=ru")) location.replace(enPath + location.hash);
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- JSON-LD Structured Data -->
+    {jsonLd.map(schema => (
+      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    ))}
+
+    <slot name="head" />
+  </head>
+  <body>
+    <Header lang={lang} activeNav={activeNav} isHome={isHome} />
+    
+    <slot />
+
+    <Wave />
+    <Footer lang={lang} />
+
+    <!-- Base Client Interactions Script -->
+    <script is:inline>
+var e=(e,t=document)=>t.querySelector(e),t=(e,t=document)=>[...t.querySelectorAll(e)],n=document.documentElement,r=matchMedia(`(prefers-reduced-motion: reduce)`),i={get:e=>{try{return localStorage.getItem(e)}catch{return null}},set:(e,t)=>{try{localStorage.setItem(e,t)}catch{}}};function a(){return n.dataset.theme===`light`?`light`:`dark`}function o(){let n=a();t(`[data-theme-btn]`).forEach(e=>e.setAttribute(`aria-pressed`,String(e.dataset.themeBtn===n)));let r=e(`meta[name="theme-color"]`);r&&(r.content=n===`light`?`#FFF8F6`:`#151210`)}function s(e,t){if(e===a())return;let s=()=>{n.dataset.theme=e,o()};i.set(`mandagram-theme`,e);i.set(`ttu-theme`,e);let c=document.startViewTransition;if(!c||r.matches||!t)return s();let l=t.getBoundingClientRect(),u=l.left+l.width/2,d=l.top+l.height/2,f=Math.hypot(Math.max(u,innerWidth-u),Math.max(d,innerHeight-d));n.classList.add(`vt-theme`);let p=c.call(document,s);p.finished.finally(()=>n.classList.remove(`vt-theme`)),p.ready.then(()=>{n.animate({clipPath:[`circle(0px at ${u}px ${d}px)`,`circle(${f}px at ${u}px ${d}px)`]},{duration:560,easing:`cubic-bezier(0.2, 0, 0, 1)`,pseudoElement:`::view-transition-new(root)`})}).catch(()=>{})}o(),t(`[data-theme-btn]`).forEach(e=>e.addEventListener(`click`,()=>s(e.dataset.themeBtn,e)));var c=null;function l(e,t){let n=e.getBoundingClientRect(),r=t.offsetWidth||180,i=Math.min(Math.max(12,n.right-r),innerWidth-r-12),a=n.left+n.width/2<innerWidth/2;t.style.left=`${Math.round(a?Math.max(12,n.left):i)}px`,t.style.top=`${Math.round(n.bottom+6)}px`,t.style.setProperty(`--origin`,a?`top left`:`top right`)}function u(t=!1){if(!c)return;let{btn:n,pop:r}=c;r.classList.remove(`is-open`),n.setAttribute(`aria-expanded`,`false`),n.dataset.labelOpen&&n.setAttribute(`aria-label`,n.dataset.labelOpen),e(`.mi-open`,n)?.removeAttribute(`hidden`),e(`.mi-close`,n)?.setAttribute(`hidden`,``),t&&n.focus(),c=null}function d(t){let n=document.getElementById(t.dataset.pop);if(c?.pop===n)return u();u(),l(t,n),n.classList.add(`is-open`),t.setAttribute(`aria-expanded`,`true`),t.dataset.labelClose&&t.setAttribute(`aria-label`,t.dataset.labelClose),e(`.mi-open`,t)?.setAttribute(`hidden`,``),e(`.mi-close`,t)?.removeAttribute(`hidden`),c={btn:t,pop:n},t.classList.add(`tg`)}t(`[data-pop]`).forEach(e=>e.addEventListener(`click`,t=>{t.stopPropagation(),d(e)})),document.addEventListener(`click`,e=>{if(!c)return;let t=e.target;if(t.closest(`.pop a`))return u();t.closest(`.pop`)||u()}),document.addEventListener(`keydown`,e=>{e.key===`Escape`&&u(!0)}),addEventListener(`resize`,()=>u(),{passive:!0}),t(`[data-set-lang]`).forEach(e=>e.addEventListener(`click`,()=>i.set(`mandagram-lang`,e.dataset.setLang)));var f=e(`[data-hdr]`),p=e(`[data-nav]`),m=p?e(`.nav-ind`,p):null,h=p?.dataset.active?[]:t(`main section[id]`),g=!1;function _(){g=!1,f?.classList.toggle(`is-stuck`,scrollY>8),c&&c.pop.id===`pop-lang`&&u();let n=p?.dataset.active;if(!h.length&&!n)return;let r=n||`main`,i=innerHeight*.35;if(!n)for(let e of h)e.getBoundingClientRect().top<=i&&(r=e.id);r===`download`&&(r=`team`),t(`[data-spy]`).forEach(e=>e.classList.toggle(`is-active`,e.dataset.spy===r||r===`main`&&e.dataset.spy===`main`));let a=p&&e(`[data-spy="${r}"]`,p);m&&(a?(m.style.opacity=`1`,m.style.width=`${a.offsetWidth}px`,m.style.transform=`translateX(${a.offsetLeft}px)`):m.style.opacity=`0`)}addEventListener(`scroll`,()=>{g||(g=!0,requestAnimationFrame(_))},{passive:!0}),_();function v(e,t){let n=r=>{r.target!==e||r.pseudoElement||(e.classList.remove(t),e.removeEventListener(`animationend`,n))};e.addEventListener(`animationend`,n)}function y(e,n,i){if(n===i)return;let a=e[n],o=e[i];o&&(e.forEach(e=>e.classList.remove(`is-in`,`is-out`)),a&&(a.classList.remove(`is-on`),a.setAttribute(`aria-hidden`,`true`),t(`a, [tabindex]`,a).forEach(e=>e.setAttribute(`tabindex`,`-1`)),r.matches||(a.classList.add(`is-out`),v(a,`is-out`))),o.classList.add(`is-on`),o.setAttribute(`aria-hidden`,`false`),t(`a`,o).forEach(e=>e.removeAttribute(`tabindex`)),o.matches(`.changes`)&&o.setAttribute(`tabindex`,`0`),r.matches||(o.offsetWidth,o.classList.add(`is-in`),v(o,`is-in`)))}var b=e(`[data-features]`);if(b){let n=t(`[data-feature]`,b),r=t(`[data-pane]`,b),i=t(`[data-shot]`,b),a=0,o=t=>{if(t=(t+n.length)%n.length,t===a)return;let o=t>a?1:-1;n.forEach((e,n)=>e.setAttribute(`aria-pressed`,String(n===t))),b.style.setProperty(`--s`,String(o));let s=a;a=t,y(r,s,t);let c=e(`img`,i[t]);(c?Promise.race([c.decode().catch(()=>{}),new Promise(e=>setTimeout(e,150))]):Promise.resolve()).then(()=>{a===t&&y(i,i.findIndex(e=>e.classList.contains(`is-on`)),t)})};n.forEach((e,t)=>e.addEventListener(`click`,()=>o(t))),new IntersectionObserver((e,n)=>{if(!e.some(e=>e.isIntersecting))return;n.disconnect();let r=()=>t(`img`,b).forEach(e=>{e.loading=`eager`,e.decode().catch(()=>{})});`requestIdleCallback`in window?window.requestIdleCallback(r,{timeout:1200}):setTimeout(r,600)},{rootMargin:`200px`}).observe(b);let s=e(`[data-swipe]`,b),c=0,l=0,u=!1;s?.addEventListener(`pointerdown`,e=>{e.pointerType!==`mouse`&&(c=e.clientX,l=e.clientY,u=!0)},{passive:!0}),s?.addEventListener(`pointerup`,e=>{if(!u)return;u=!1;let t=e.clientX-c,n=e.clientY-l;Math.abs(t)>48&&Math.abs(t)>Math.abs(n)*1.4&&o(a+(t<0?1:-1))},{passive:!0}),s?.addEventListener(`pointercancel`,()=>{u=!1})}var x=e(`[data-versions]`);if(x){let n=t(`[data-version]`,x),r=t(`[data-upane]`,x),i=t(`[data-uchanges]`,x),a=e(`.vind`,x),o=0,s=e=>{let t=n[e];a&&t&&(a.style.transform=`translateY(${t.offsetTop-2}px)`,a.style.height=`${t.offsetHeight}px`)};n.forEach((e,t)=>e.addEventListener(`click`,()=>{t!==o&&(n.forEach((e,n)=>e.setAttribute(`aria-pressed`,String(n===t))),x.style.setProperty(`--s`,String(t>o?1:-1)),s(t),y(r,o,t),y(i,o,t),i[t].scrollTop=0,o=t)})),s(0),addEventListener(`resize`,()=>s(o),{passive:!0})}var S=e(`[data-kb]`);if(S){let t=JSON.parse(S.dataset.list||`[]`),n=JSON.parse(S.dataset.popular||`[]`),r=e(`[data-kb-input]`,S),i=e(`[data-kb-links]`,S),a=e(`svg`,i)?.outerHTML??``,o=e=>e.toLocaleLowerCase(`ru`).replaceAll(`ё`,`е`).replace(/[^a-zа-я0-9]+/gi,` `).trim(),s=e=>e.replace(/[&<>"]/g,e=>({"&":`&amp;`,"<":`&lt;`,">":`&gt;`,'"':`&quot;`})[e]),c=``;r.addEventListener(`input`,()=>{let e=o(r.value);if(e===c)return;c=e;let l=e.split(` `).filter(Boolean),u=e?t.filter(([,e,t])=>{let n=o(`${e} ${t}`);return l.every(e=>n.includes(e))}).slice(0,6):n.map(([e,t])=>[e,t,``]);i.innerHTML=u.length?u.map(([e,t],n)=>`<a class="chip chip--link st" style="--i:${n}" href="/kb/${e}/">${a}${s(t)}</a>`).join(``):`<span class="kb-empty">${s(S.dataset.empty||``)}</span>`})}{let e=matchMedia(`(hover: hover) and (pointer: fine)`),n=e=>/t\.me\/|yandex\.ru|drive\.google\.com|\.apk($|\?)/i.test(e.getAttribute(`href`)||``);t(`.btn, .pill`).forEach(t=>{if(n(t))return;let i=0,a=()=>{cancelAnimationFrame(i),t.style.setProperty(`--mx`,`0px`),t.style.setProperty(`--my`,`0px`),t.classList.remove(`is-magnetic`)};t.addEventListener(`pointermove`,n=>{!r.matches&&e.matches&&(cancelAnimationFrame(i),i=requestAnimationFrame(()=>{let e=t.getBoundingClientRect(),r=Math.max(-1,Math.min(1,(n.clientX-e.left-e.width/2)/(e.width/2))),i=Math.max(-1,Math.min(1,(n.clientY-e.top-e.height/2)/(e.height/2)));t.style.setProperty(`--mx`,`${(r*Math.min(24,e.width*.1)).toFixed(2)}px`),t.style.setProperty(`--my`,`${(i*Math.min(16,e.height*.2)).toFixed(2)}px`),t.classList.add(`is-magnetic`)}))}),t.addEventListener(`pointerleave`,a),t.addEventListener(`pointercancel`,a),t.addEventListener(`blur`,a)})}{let e=t(`.glows, .dl-glow, .wave`);if(e.length&&`IntersectionObserver`in window){let t=new IntersectionObserver(e=>e.forEach(e=>e.target.classList.toggle(`is-paused`,!e.isIntersecting)),{rootMargin:`120px`});e.forEach(e=>t.observe(e))}}if(n.classList.contains(`rv`)){let e=new IntersectionObserver(t=>{let n=t.filter(e=>e.isIntersecting).map(e=>e.target);n.sort((e,t)=>e.compareDocumentPosition(t)&Node.DOCUMENT_POSITION_FOLLOWING?-1:1),n.forEach((t,n)=>{e.unobserve(t),t.style.setProperty(`--rd`,`${Math.min(n,5)*(innerWidth<760?50:70)}ms`),t.classList.add(`is-shown`),t.addEventListener(`animationend`,()=>t.style.removeProperty(`--rd`),{once:!0})})},{rootMargin:`0px 0px 0px 0px`});t(`.reveal`).forEach(t=>e.observe(t))}document.addEventListener(`pointerdown`,e=>{if(e.button!==0)return;let t=e.target.closest(`.btn, .pill, .mirror, .chip, .vrow, .tcard, .icon-btn, .lang, .seg button, .krow, .pg, .kbs-hit, .knav li a`);if(!t||t.matches(`:disabled`))return;t.matches(`.btn, .pill, .mirror`)&&t.style.setProperty(`--ps`,Math.max(.94,1-10/Math.max(1,t.offsetWidth)).toFixed(3));let n=0,r=!1,i=()=>{n||(n=performance.now(),t.classList.add(`is-pressed`))},a=e.pointerType===`mouse`?(i(),0):window.setTimeout(i,40),o=e=>{if(!r){if(r=!0,clearTimeout(a),removeEventListener(`pointerup`,o),removeEventListener(`pointercancel`,o),t.removeEventListener(`pointerleave`,o),e.type===`pointercancel`){t.classList.remove(`is-pressed`);return}i(),setTimeout(()=>t.classList.remove(`is-pressed`),Math.max(0,140-(performance.now()-n)))}};addEventListener(`pointerup`,o),addEventListener(`pointercancel`,o),e.pointerType===`mouse`&&t.addEventListener(`pointerleave`,o)},{passive:!0});{let n=e(`[data-tcar]`),i=n&&e(`[data-tcar-track]`,n);if(n&&i){let e=t(`.tslot`,i),a=[],o=0,s=0,c=0,l=0,u=0,d=0,f=0,p=0,m=0,h=!1,g=()=>r.matches?0:innerWidth<760?22:30,_=!1,v=!1,y=!1,b=()=>_||v||y?0:g(),x=(e,t)=>(e%t+t)%t,S=new Map,C=()=>{o=n.clientWidth,s=e[0].offsetWidth,c=s+parseFloat(getComputedStyle(n).getPropertyValue(`--tgap`)||`8`);let r=Math.max(2,Math.ceil((o+2*c)/(e.length*c)));t(`.tslot.is-clone`,i).forEach(e=>e.remove()),a=[...e];for(let n=1;n<r;n++)for(let n of e){let e=n.cloneNode(!0);e.classList.add(`is-clone`),e.setAttribute(`aria-hidden`,`true`),t(`a`,e).forEach(e=>e.setAttribute(`tabindex`,`-1`)),i.append(e),a.push(e)}l=a.length*c,S.clear(),w()},w=()=>{a.forEach((e,t)=>{let n=x(t*c+u+c,l)-c,r=Math.max(0,-n),i=Math.max(0,n+s-o),a=s-r-i,d=e.firstElementChild,f=d.firstElementChild,p=a<=0?`h`:`${Math.round(r)}|${Math.round(i)}`;e.style.transform=`translate3d(${n.toFixed(2)}px,0,0)`,S.get(e)!==p&&(S.set(e,p),e.style.visibility=a<=0?`hidden`:``,d.style.clipPath=r+i>.5?`inset(0 ${i.toFixed(1)}px 0 ${r.toFixed(1)}px round 24px)`:``,f.style.transform=r+i>.5?`translateX(${((r-i)*.5).toFixed(1)}px)`:``,f.style.opacity=a<120?String(Math.max(0,(a-20)/100)):``)})},T=e=>{let t=Math.min(.05,(e-(p||e))/1e3);p=e,y||(f=b(),d+=(f-d)*(1-Math.exp(-t*3.2)),u-=d*t),w(),m=h&&!document.hidden?requestAnimationFrame(T):0},E=()=>{!m&&h&&!document.hidden&&(p=0,m=requestAnimationFrame(T))},D=0,O=0,k=!1,A=[];n.addEventListener(`pointerdown`,e=>{if(e.button!==0)return;D=e.clientX,O=u,k=!1,A=[[performance.now(),e.clientX]];let t=e=>{let t=e.clientX-D;!y&&Math.abs(t)>6&&(y=!0,k=!0,n.classList.add(`is-drag`),n.setPointerCapture(e.pointerId)),y&&(u=O+t,A.push([performance.now(),e.clientX]),A.length>6&&A.shift(),E())},r=()=>{if(removeEventListener(`pointermove`,t),removeEventListener(`pointerup`,r),removeEventListener(`pointercancel`,r),!y)return;let[e,i]=A[0],[a,o]=A[A.length-1];d=a>e?-((o-i)/(a-e))*1e3:0,d=Math.max(-2400,Math.min(2400,d)),y=!1,n.classList.remove(`is-drag`),E()};addEventListener(`pointermove`,t,{passive:!0}),addEventListener(`pointerup`,r),addEventListener(`pointercancel`,r)}),n.addEventListener(`click`,e=>{k&&=(e.preventDefault(),e.stopPropagation(),!1)},!0),n.addEventListener(`wheel`,e=>{Math.abs(e.deltaX)<=Math.abs(e.deltaY)||(e.preventDefault(),u-=e.deltaX,d=0,E())},{passive:!1}),n.addEventListener(`pointerenter`,e=>{e.pointerType===`mouse`&&(_=!0)}),n.addEventListener(`pointerleave`,()=>{_=!1}),n.addEventListener(`focusin`,e=>{v=!0;let t=e.target.closest(`.tslot`);if(!t)return;let n=x(a.indexOf(t)*c+u+c,l)-c,r=n<0?-n:n+s>o?o-(n+s):0;if(!r)return;let i=u,d=performance.now(),f=e=>{let t=Math.min(1,(e-d)/380);u=i+r*(1-(1-t)**3),w(),t<1&&requestAnimationFrame(f)};requestAnimationFrame(f)}),n.addEventListener(`focusout`,()=>{v=!1}),new IntersectionObserver(([e])=>{h=e.isIntersecting,E()},{rootMargin:`100px`}).observe(n),document.addEventListener(`visibilitychange`,E);let j=0;addEventListener(`resize`,()=>{clearTimeout(j),j=window.setTimeout(C,120)},{passive:!0}),d=g(),C(),n.classList.add(`is-live`)}}
+    </script>
+
+    <!-- Hero Morph Script -->
+    <script is:inline>
+      document.addEventListener("DOMContentLoaded", () => {
+        let morphs = document.querySelectorAll("[data-hero-morph]");
+        morphs.forEach(m => {
+          let t = null;
+          m.addEventListener("mouseenter", () => {
+            t = setTimeout(() => { m.classList.add("is-swaga"); }, 434);
+          });
+          m.addEventListener("mouseleave", () => {
+            clearTimeout(t);
+            m.classList.remove("is-swaga");
+          });
+          m.addEventListener("touchstart", () => {
+            t = setTimeout(() => { m.classList.toggle("is-swaga"); }, 434);
+          }, { passive: true });
+        });
+      });
+    </script>
+  </body>
+</html>
