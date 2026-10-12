@@ -1,4 +1,4 @@
-name: Deploy Astro to Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
@@ -20,8 +20,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Install, build, and upload site
         uses: withastro/action@v3
+        with:
+          package-manager: npm
 
   deploy:
     environment:
