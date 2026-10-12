@@ -23,7 +23,7 @@ export const teamRu: TeamMember[] = [
     role: "разработчик",
     tags: ["Разработка", "работа с git"],
     tone: "tcard--kpictalluk",
-    telegram: "https://t.me/KPuCTaJluK",
+    telegram: "https://t.me/Strateg356",
     avatar: "/assets/team/kpictalluk.png"
   }
 ];
