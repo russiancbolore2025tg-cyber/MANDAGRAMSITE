@@ -2,10 +2,11 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://mandagram.app',
+  site: 'https://mandagram.com',
+  trailingSlash: 'always',
   build: {
     assets: '_a',
-    format: 'file',
+    format: 'directory',
     inlineStylesheets: 'always'
   },
   prefetch: {
